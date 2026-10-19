@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.foco.controller.PrincipalController" stylesheets="@estilo.css">
+ <padding><Insets top="24" right="24" bottom="18" left="24"/></padding>
+ <top><VBox spacing="5" styleClass="cabecalho"><Label text="FOCO" styleClass="marca"/><Label text="Seu próximo passo começa aqui." styleClass="titulo"/><Label text="Organize atividades, acompanhe prazos e veja seu progresso." styleClass="suave"/></VBox></top>
+ <center><VBox fx:id="conteudo" spacing="16">
+  <HBox spacing="16">
+   <VBox styleClass="cartao" HBox.hgrow="ALWAYS"><Label text="ATIVIDADES" styleClass="suave"/><Label fx:id="totalLabel" text="0" styleClass="numero"/></VBox>
+   <VBox styleClass="cartao" HBox.hgrow="ALWAYS"><Label text="CONCLUÍDAS" styleClass="suave"/><Label fx:id="concluidasLabel" text="0" styleClass="numero"/></VBox>
+   <VBox styleClass="cartao" HBox.hgrow="ALWAYS"><Label text="MINUTOS PENDENTES" styleClass="suave"/><Label fx:id="minutosLabel" text="0" styleClass="numero"/></VBox>
+  </HBox>
+  <VBox spacing="6"><Label text="Progresso geral • indicadores de todas as atividades" styleClass="suave"/><ProgressBar fx:id="progresso" progress="0" maxWidth="Infinity"/></VBox>
+  <VBox spacing="10" styleClass="cartao">
+   <Label fx:id="formularioLabel" text="Nova atividade" styleClass="subtitulo"/>
+   <HBox spacing="12">
+    <VBox spacing="5" HBox.hgrow="ALWAYS"><Label text="O que você vai estudar?"/><TextField fx:id="tituloField" promptText="Ex.: Resolver exercícios de POO"/></VBox>
+    <VBox spacing="5" HBox.hgrow="ALWAYS"><Label text="Disciplina"/><TextField fx:id="disciplinaField" promptText="Ex.: Java"/></VBox>
+    <VBox spacing="5"><Label text="Prazo"/><DatePicker fx:id="prazoPicker" editable="false" prefWidth="150"/></VBox>
+    <VBox spacing="5"><Label text="Minutos previstos"/><TextField fx:id="minutosField" promptText="60" prefWidth="125"/></VBox>
+   </HBox>
+   <HBox spacing="10"><Button text="Salvar atividade" onAction="#salvar" styleClass="primario"/><Button text="Limpar / cancelar edição" onAction="#novo"/></HBox>
+  </VBox>
+  <HBox spacing="10" alignment="CENTER_LEFT"><TextField fx:id="buscaField" promptText="Pesquisar título ou disciplina" onAction="#atualizar" HBox.hgrow="ALWAYS"/><ComboBox fx:id="situacaoCombo" prefWidth="145"/><ComboBox fx:id="ordemCombo" prefWidth="120"/><Button text="Aplicar filtros" onAction="#atualizar"/><Button text="Resumo" onAction="#resumo"/></HBox>
+  <TableView fx:id="tabela" VBox.vgrow="ALWAYS" prefHeight="260">
+   <columns><TableColumn fx:id="tituloCol" text="Atividade" prefWidth="320"/><TableColumn fx:id="disciplinaCol" text="Disciplina" prefWidth="190"/><TableColumn fx:id="prazoCol" text="Prazo (ano-mês-dia)" prefWidth="170"/><TableColumn fx:id="minutosCol" text="Minutos" prefWidth="100"/><TableColumn fx:id="situacaoCol" text="Situação" prefWidth="150"/></columns>
+  </TableView>
+  <HBox spacing="10"><Button text="Editar selecionada" onAction="#editar"/><Button text="Concluir / reabrir" onAction="#alternarConclusao" styleClass="primario"/><Pane HBox.hgrow="ALWAYS"/><Button text="Excluir" onAction="#excluir" styleClass="perigo"/></HBox>
+ </VBox></center>
+ <bottom><Label fx:id="mensagemLabel" text="Pronto." wrapText="true" styleClass="rodape"/></bottom>
+</BorderPane>

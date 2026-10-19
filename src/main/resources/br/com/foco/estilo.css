@@ -1,0 +1,23 @@
+.root { -fx-font-family: "Segoe UI", sans-serif; -fx-font-size: 13px; -fx-background-color: #f2f5fa; -fx-text-fill: #16243c; }
+.label { -fx-text-fill: #16243c; }
+.cabecalho { -fx-padding: 0 0 20 0; }
+.marca { -fx-text-fill: #3369db; -fx-font-size: 13px; -fx-font-weight: bold; }
+.titulo { -fx-font-size: 27px; -fx-font-weight: bold; }
+.subtitulo { -fx-font-size: 16px; -fx-font-weight: bold; }
+.suave { -fx-text-fill: #63718a; -fx-font-size: 12px; }
+.cartao { -fx-background-color: white; -fx-background-radius: 12; -fx-padding: 15; -fx-spacing: 5; }
+.numero { -fx-font-size: 29px; -fx-font-weight: bold; -fx-text-fill: #2459bb; }
+.button { -fx-background-color: #e6edf8; -fx-text-fill: #244472; -fx-background-radius: 7; -fx-padding: 9 13; -fx-cursor: hand; }
+.button:hover { -fx-background-color: #d5e2f6; }
+.primario { -fx-background-color: #3269d7; -fx-text-fill: white; }
+.primario:hover { -fx-background-color: #2455b7; }
+.perigo { -fx-background-color: #fbe8e9; -fx-text-fill: #a72e3b; }
+.text-field, .combo-box, .date-picker { -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #dce3ee; -fx-background-color: white; }
+.text-field { -fx-padding: 8; }
+.table-view { -fx-background-color: white; -fx-border-color: #dce3ee; -fx-background-radius: 8; }
+.table-view .column-header, .table-view .filler { -fx-background-color: #e9eff8; -fx-size: 36; }
+.table-row-cell { -fx-cell-size: 35; }
+.table-row-cell:selected { -fx-background-color: #3269d7; }
+.table-row-cell:selected .text { -fx-fill: white; }
+.progress-bar .bar { -fx-background-color: #24a38a; -fx-background-radius: 6; }
+.rodape { -fx-padding: 14 0 0 0; -fx-font-size: 11px; -fx-text-fill: #63718a; }
