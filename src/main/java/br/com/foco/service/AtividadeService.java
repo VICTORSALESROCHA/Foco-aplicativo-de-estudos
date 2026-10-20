@@ -4,6 +4,7 @@ import br.com.foco.repository.AtividadeRepository;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class AtividadeService {
     private final AtividadeRepository repository;
@@ -38,7 +39,8 @@ public final class AtividadeService {
     public List<Atividade> pesquisar(String texto, String situacao) {
         List<Atividade> resultado = new ArrayList<>();
         String busca = texto.trim().toLowerCase(Locale.ROOT);
-        for (Atividade atividade : atividades) {
+        return atividades.stream()
+                .filter(atividade -> {
             boolean corresponde = atividade.getTitulo().toLowerCase(Locale.ROOT).contains(busca)
                 || atividade.getDisciplina().toLowerCase(Locale.ROOT).contains(busca);
             boolean aceita = "Todas".equals(situacao)
@@ -46,51 +48,43 @@ public final class AtividadeService {
                 || ("Concluídas".equals(situacao) && atividade.isConcluida())
                 || ("Atrasadas".equals(situacao) && !atividade.isConcluida()
                     && atividade.getPrazo().isBefore(LocalDate.now()));
-            if (corresponde && aceita) { resultado.add(atividade); }
-        }
-        return resultado;
+            return  corresponde && aceita;
+            })
+                .toList();
     }
     public List<Atividade> ordenar(List<Atividade> origem, String ordem) {
         List<Atividade> resultado = new ArrayList<>(origem);
         if ("Título".equals(ordem)) {
-            resultado.sort(new Comparator<Atividade>() {
-                @Override
-                public int compare(Atividade a, Atividade b) {
-                    return a.getTitulo().compareToIgnoreCase(b.getTitulo());
-                }
-            });
+            resultado.sort((a, b) ->
+             a.getTitulo().compareToIgnoreCase(b.getTitulo()));
         } else {
-            resultado.sort(new Comparator<Atividade>() {
-                @Override
-                public int compare(Atividade a, Atividade b) {
-                    return a.getPrazo().compareTo(b.getPrazo());
-                }
-            });
+            resultado.sort((a, b) ->
+                a.getPrazo().compareTo(b.getPrazo()));
         }
         return resultado;
     }
-    public int contarConcluidas() {
-        int quantidade = 0;
-        for (Atividade atividade : atividades) {
-            if (atividade.isConcluida()) { quantidade++; }
+    public long contarConcluidas() {
+        return atividades.stream()
+                .filter(atividade -> atividade.isConcluida())
+                .count();
         }
-        return quantidade;
-    }
     public long somarMinutosPendentes() {
-        long minutos = 0;
-        for (Atividade atividade : atividades) {
-            if (!atividade.isConcluida()) { minutos += atividade.getMinutos(); }
-        }
-        return minutos;
+        return atividades.stream()
+                .filter(atividade -> !atividade.isConcluida())
+                .mapToLong(atividade -> atividade.getMinutos())
+                .sum();
     }
-    public Map<String, Integer> contarPorDisciplina() {
-        Map<String, Integer> resultado = new TreeMap<>();
-        for (Atividade atividade : atividades) {
-            String disciplina = atividade.getDisciplina();
-            Integer quantidade = resultado.get(disciplina);
-            if (quantidade == null) { quantidade = 0; }
-            resultado.put(disciplina, quantidade + 1);
-        }
-        return resultado;
+    public Map<String, Long> contarPorDisciplina() {
+        return atividades.stream()
+                .collect(Collectors.groupingBy(
+                        atividade -> atividade.getDisciplina(),
+                        () -> new TreeMap<>(),
+                        Collectors.counting()
+                ));
+    }
+    public List<String>listarTitulos(){
+        return atividades.stream()
+                .map(atividade -> atividade.getTitulo())
+                .toList();
     }
 }

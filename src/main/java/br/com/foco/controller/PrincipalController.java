@@ -136,9 +136,9 @@ public final class PrincipalController {
         tabela.getItems().setAll(service.ordenar(
             service.pesquisar(buscaField.getText(), situacaoCombo.getValue()), ordemCombo.getValue()));
         int total = service.listar().size();
-        int concluidas = service.contarConcluidas();
-        totalLabel.setText(Integer.toString(total));
-        concluidasLabel.setText(Integer.toString(concluidas));
+        long concluidas = service.contarConcluidas();
+        totalLabel.setText(Long.toString(total));
+        concluidasLabel.setText(Long.toString(concluidas));
         minutosLabel.setText(Long.toString(service.somarMinutosPendentes()));
         if (total == 0) { progresso.setProgress(0); }
         else { progresso.setProgress((double) concluidas / total); }
@@ -146,7 +146,8 @@ public final class PrincipalController {
     @FXML
     private void resumo() {
         StringBuilder texto = new StringBuilder();
-        for (Map.Entry<String, Integer> entrada : service.contarPorDisciplina().entrySet()) {
+        for (Map.Entry<String, Long> entrada :
+                service.contarPorDisciplina().entrySet()) {
             texto.append(entrada.getKey()).append(": ").append(entrada.getValue()).append(" atividade(s)\n");
         }
         if (texto.length() == 0) { texto.append("Nenhuma atividade cadastrada."); }
